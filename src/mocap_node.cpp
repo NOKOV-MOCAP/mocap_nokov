@@ -34,6 +34,8 @@
 #include <mocap_nokov/MocapNokovConfig.h>
 #include <mocap_nokov/data_model.h>
 #include <mocap_nokov/rigid_body_publisher.h>
+// STL includes
+#include <mutex>   
 // Ros includes
 #include <ros/ros.h>
 #include <dynamic_reconfigure/server.h>
@@ -64,9 +66,9 @@ namespace mocap_nokov
       for(int i = 0; i< nmaker; ++i)
       {   
         frameObjData.dataFrame.otherMarkers.push_back(
-          Marker{pFrameOfData->OtherMarkers[i][0] * 0.001,
-                 pFrameOfData->OtherMarkers[i][1] * 0.001,
-                 pFrameOfData->OtherMarkers[i][2] * 0.001}
+          Marker{pFrameOfData->OtherMarkers[i][0] * 0.001f,
+                 pFrameOfData->OtherMarkers[i][1] * 0.001f,
+                 pFrameOfData->OtherMarkers[i][2] * 0.001f}
         );        
       }
 
@@ -75,9 +77,9 @@ namespace mocap_nokov
           RigidBody body;
           body.bodyId = pFrameOfData->RigidBodies[i].ID;
           body.isTrackingValid = true;
-          body.pose.position = {pFrameOfData->RigidBodies[i].x * 0.001, 
-                                pFrameOfData->RigidBodies[i].y * 0.001,
-                                pFrameOfData->RigidBodies[i].z * 0.001};
+          body.pose.position = {pFrameOfData->RigidBodies[i].x * 0.001f, 
+                                pFrameOfData->RigidBodies[i].y * 0.001f,
+                                pFrameOfData->RigidBodies[i].z * 0.001f};
 
           body.pose.orientation = {pFrameOfData->RigidBodies[i].qx, 
                                   pFrameOfData->RigidBodies[i].qy,
