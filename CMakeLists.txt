@@ -27,7 +27,6 @@ endif()
 set (nokov_sdk_INCLUDE_DIRS deps/nokov_sdk/include)
 set (nokov_sdk_LIB_DIRS deps/nokov_sdk/lib)
 
-
 find_package(catkin REQUIRED COMPONENTS 
   roscpp
   geometry_msgs
@@ -36,7 +35,8 @@ find_package(catkin REQUIRED COMPONENTS
   tf
 )
 
-find_library(nokov_sdk_LIBRARIES SeekerSDKClient ${nokov_sdk_LIB_DIRS} NO_CACHE)
+#find_library(nokov_sdk_LIBRARIES SeekerSDKClient ${nokov_sdk_LIB_DIRS} NO_CACHE)
+set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/libSeekerSDKClient.so)
 
 # dynamic reconfigure
 generate_dynamic_reconfigure_options(
