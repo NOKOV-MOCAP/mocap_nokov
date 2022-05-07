@@ -8,7 +8,7 @@ rigid_body_publisher.cpp
 
 target_link_libraries(${PROJECT_NAME}_mocap_node 
 ${catkin_LIBRARIES}
-SeekerSDKClient)
+${nokov_sdk_LIBRARIES})
 
 set_target_properties(${PROJECT_NAME}_mocap_node PROPERTIES
                     OUTPUT_NAME mocap_node PREFIX "")
