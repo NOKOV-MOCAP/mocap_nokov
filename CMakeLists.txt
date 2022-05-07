@@ -36,6 +36,8 @@ find_package(catkin REQUIRED COMPONENTS
   tf
 )
 
+find_library(nokov_sdk_LIBRARIES SeekerSDKClient ${nokov_sdk_LIB_DIRS} NO_CACHE)
+
 # dynamic reconfigure
 generate_dynamic_reconfigure_options(
   cfg/MocapNokov.cfg
@@ -53,9 +55,6 @@ include_directories(include
 )
 
 add_subdirectory(src)
-link_directories(
-  ${nokov_sdk_LIB_DIRS}
-)
 
 install(DIRECTORY launch config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
