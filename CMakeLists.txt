@@ -35,8 +35,21 @@ find_package(catkin REQUIRED COMPONENTS
   tf
 )
 
+EXECUTE_PROCESS( COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE )
+message( STATUS "Architecture: ${ARCHITECTURE}" )
+
+if (${ARCHITECTURE} MATCHES "armhf")
+  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/armhf/libSeekerSDKClient_armhf.so)    
+elseif (${ARCHITECTURE} MATCHES "aarch")
+  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/aarch64/libSeekerSDKClient_aarch.so)  
+else()
+  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/x64/libSeekerSDKClient.so)
+endif()
+
+message(STATUS ${nokov_sdk_LIBRARIES})
+
 #find_library(nokov_sdk_LIBRARIES SeekerSDKClient ${nokov_sdk_LIB_DIRS} NO_CACHE)
-set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/libSeekerSDKClient.so)
+#set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/libSeekerSDKClient.so)
 
 # dynamic reconfigure
 generate_dynamic_reconfigure_options(
