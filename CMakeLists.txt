@@ -6,15 +6,6 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Require c++11
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-if(COMPILER_SUPPORTS_CXX11)
-    set(CMAKE_CXX_FLAGS "-std=c++11")
-else()
-    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
-endif()
-
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -27,16 +18,11 @@ endif()
 set (nokov_sdk_INCLUDE_DIRS deps/nokov_sdk/include)
 set (nokov_sdk_LIB_DIRS deps/nokov_sdk/lib)
 
-find_package(catkin REQUIRED COMPONENTS 
-  roscpp
-  geometry_msgs
-  nav_msgs
-  dynamic_reconfigure
-  tf
-)
-
-EXECUTE_PROCESS( COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE )
-message( STATUS "Architecture: ${ARCHITECTURE}" )
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 if (${ARCHITECTURE} MATCHES "armhf")
   set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/armhf/libSeekerSDKClient_armhf.so)    
@@ -48,26 +34,37 @@ endif()
 
 message(STATUS ${nokov_sdk_LIBRARIES})
 
-#find_library(nokov_sdk_LIBRARIES SeekerSDKClient ${nokov_sdk_LIB_DIRS} NO_CACHE)
-#set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/libSeekerSDKClient.so)
-
-# dynamic reconfigure
-generate_dynamic_reconfigure_options(
-  cfg/MocapNokov.cfg
-)
-
-catkin_package(
-  INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp
-  dynamic_reconfigure
-)
-
-include_directories(include
-  ${catkin_INCLUDE_DIRS}
+include_directories(include()
+  ${rclcpp_INCLUDE_DIRS}
+  ${tf2_ros_INCLUDE_DIRS}
+  ${geometry_msgs_INCLUDE_DIRS}
   ${nokov_sdk_INCLUDE_DIRS}
 )
 
 add_subdirectory(src)
 
-install(DIRECTORY launch config
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(DIRECTORY
+  launch config
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+# add_executable(mocap_node src/mocap_node.cpp)
+# target_include_directories(mocap_node PUBLIC
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#   $<INSTALL_INTERFACE:include>)
+
+# install(TARGETS mocap_node
+#   DESTINATION lib/${PROJECT_NAME})
+
+# if(BUILD_TESTING)
+#   find_package(ament_lint_auto REQUIRED)
+#   # the following line skips the linter which checks for copyrights
+#   # uncomment the line when a copyright and license is not present in all source files
+#   #set(ament_cmake_copyright_FOUND TRUE)
+#   # the following line skips cpplint (only works in a git repo)
+#   # uncomment the line when this package is not in a git repo
+#   #set(ament_cmake_cpplint_FOUND TRUE)
+#   ament_lint_auto_find_test_dependencies()
+# endif()
+
+ament_package()
