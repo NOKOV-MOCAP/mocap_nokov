@@ -2,8 +2,8 @@
 Changelog for package mocap_nokov
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.2 (2022-08-22)
+------------------
 * Upload project
 * Initial commit
 * Contributors: duguguang
