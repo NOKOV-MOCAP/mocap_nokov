@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>mocap_nokov</name>
+  <version>0.0.2</version>
+  <description>
+    Streaming of Nokov mocap data to tf
+    <p>
+    This package contains a node that translates motion capture data from an
+    nokov rig to tf transforms, poses and 2D poses.
+    </p>
+  </description>
+  <maintainer email="nokov-mocap@nokov.com">nokov</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <depend>dynamic_reconfigure</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>tf</depend>
+
+  <test_depend>roslaunch</test_depend>
+  <test_depend>roslint</test_depend>
+  
+</package>
