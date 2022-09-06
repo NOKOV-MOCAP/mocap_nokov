@@ -69,5 +69,5 @@ include_directories(include
 
 add_subdirectory(src)
 
-install(DIRECTORY launch config
+install(DIRECTORY launch config deps
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
