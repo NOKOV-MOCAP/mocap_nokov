@@ -56,5 +56,16 @@ include_directories(include
 
 add_subdirectory(src)
 
-install(DIRECTORY launch config deps
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(DIRECTORY launch config deps/nokov_sdk/include deps/nokov_sdk/lib/x64
+ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+if (${ARCHITECTURE} MATCHES "arm") 
+  install(DIRECTORY launch config deps/nokov_sdk/include deps/nokov_sdk/lib/armhf
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+elseif (${ARCHITECTURE} MATCHES "aarch")
+  install(DIRECTORY launch config deps/nokov_sdk/include deps/nokov_sdk/lib/aarch64
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+else()
+  install(DIRECTORY launch config deps/nokov_sdk/include deps/nokov_sdk/lib/x64
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+endif()
