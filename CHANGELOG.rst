@@ -2,8 +2,8 @@
 Changelog for package mocap_nokov
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.4 (2022-09-09)
+------------------
 * Exclude other arch lib
 * Update CHANGELOG.rst
   0.0.3
