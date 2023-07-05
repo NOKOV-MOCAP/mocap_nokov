@@ -127,12 +127,6 @@ void RigidBodyPublisher::publish(ros::Time const& time, RigidBody const& body)
     odom.child_frame_id = config.childFrameId;
     odomPublisher.publish(odom);
   }
-  if (config.publishOdom)
-  {
-    odom.header.frame_id = config.parentFrameId;
-    odom.child_frame_id = config.childFrameId;
-    odomPublisher.publish(odom);
-  }
   // publish 2D pose
   if (config.publishPose2d)
   {
