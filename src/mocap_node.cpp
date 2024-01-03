@@ -40,7 +40,7 @@
 #include <ros/ros.h>
 #include <dynamic_reconfigure/server.h>
 // SDK includes
-#include <SeekerSDKClient.h>
+#include <NokovSDKClient.h>
 
 namespace mocap_nokov
 {
@@ -76,7 +76,6 @@ namespace mocap_nokov
       {
           RigidBody body;
           body.bodyId = pFrameOfData->RigidBodies[i].ID;
-          body.iFrame = pFrameOfData->iFrame;
           body.isTrackingValid = true;
           body.pose.position = {pFrameOfData->RigidBodies[i].x * 0.001f, 
                                 pFrameOfData->RigidBodies[i].y * 0.001f,
@@ -126,11 +125,11 @@ namespace mocap_nokov
     void initialize()
     {
       // Create client
-      sdkClientPtr.reset(new SeekerSDKClient());
+      sdkClientPtr.reset(new NokovSDKClient());
       sdkClientPtr->SetDataCallback(DataHandler);
 
       unsigned char sdkVersion[4] = {0};
-      sdkClientPtr->SeekerSDKVersion(sdkVersion);    
+      sdkClientPtr->NokovSDKVersion(sdkVersion);    
       Version ver((int)sdkVersion[0], (int)sdkVersion[1], (int)sdkVersion[2], (int)sdkVersion[3]);
       ROS_INFO("Load SDK Ver:%s", (char*)ver.getVersionString().c_str());
 
@@ -185,7 +184,7 @@ namespace mocap_nokov
     ServerDescription serverDescription;
     PublisherConfigurations publisherConfigurations;
     std::unique_ptr<RigidBodyPublishDispatcher> publishDispatcherPtr;
-    std::unique_ptr<SeekerSDKClient> sdkClientPtr;
+    std::unique_ptr<NokovSDKClient> sdkClientPtr;
     dynamic_reconfigure::Server<MocapNokovConfig> server;
   };
 

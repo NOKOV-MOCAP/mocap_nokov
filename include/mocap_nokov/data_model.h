@@ -66,7 +66,6 @@ struct __attribute__ ((__packed__)) Pose
 struct RigidBody
 {
     RigidBody();
-    int iFrame;
     int bodyId;
     Pose pose;
     float meanMarkerError;

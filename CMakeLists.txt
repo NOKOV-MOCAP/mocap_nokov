@@ -29,11 +29,11 @@ EXECUTE_PROCESS( COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTUR
 message( STATUS "Architecture: ${ARCHITECTURE}" )
 
 if (${ARCHITECTURE} MATCHES "arm")
-  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/armhf/libSeekerSDKClient.so)    
+  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/armhf/libnokov_sdk.so)    
 elseif (${ARCHITECTURE} MATCHES "aarch")
-  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/aarch64/libSeekerSDKClient.so)  
+  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/aarch64/libnokov_sdk.so)  
 else()
-  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/x64/libSeekerSDKClient.so)
+  set(nokov_sdk_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/${nokov_sdk_LIB_DIRS}/x64/libnokov_sdk.so)
 endif()
 
 message(STATUS ${nokov_sdk_LIBRARIES})

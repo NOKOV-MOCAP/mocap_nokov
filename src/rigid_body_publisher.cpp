@@ -112,8 +112,7 @@ void RigidBodyPublisher::publish(ros::Time const& time, RigidBody const& body)
 
   if (config.publishPose)
   {
-    //pose.header.frame_id = config.parentFrameId;
-    pose.header.frame_id = std::to_string(body.iFrame);
+    pose.header.frame_id = config.parentFrameId;
     posePublisher.publish(pose);
   }
 
@@ -124,8 +123,13 @@ void RigidBodyPublisher::publish(ros::Time const& time, RigidBody const& body)
 
   if (config.publishOdom)
   {
-    //odom.header.frame_id = config.parentFrameId;
-    odom.header.frame_id = std::to_string(body.iFrame);
+    odom.header.frame_id = config.parentFrameId;
+    odom.child_frame_id = config.childFrameId;
+    odomPublisher.publish(odom);
+  }
+  if (config.publishOdom)
+  {
+    odom.header.frame_id = config.parentFrameId;
     odom.child_frame_id = config.childFrameId;
     odomPublisher.publish(odom);
   }
@@ -150,7 +154,7 @@ void RigidBodyPublisher::publish(ros::Time const& time, RigidBody const& body)
     transform.setRotation(q);
     tfPublisher.sendTransform(tf::StampedTransform(transform,
                               time,
-                              std::to_string(body.iFrame),
+                              config.parentFrameId,
                               config.childFrameId));
   }
 }
