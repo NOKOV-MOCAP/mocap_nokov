@@ -8,10 +8,12 @@ if(COMPILER_SUPPORTS_CXX11)
     set(CMAKE_CXX_FLAGS "-std=c++11")
 else()
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -36,11 +38,12 @@ endif()
 
 message(STATUS ${nokov_sdk_LIBRARIES})
 
-include_directories(include()
+include_directories(include
   ${rclcpp_INCLUDE_DIRS}
   ${tf2_ros_INCLUDE_DIRS}
   ${geometry_msgs_INCLUDE_DIRS}
   ${nokov_sdk_INCLUDE_DIRS}
+)
 
 add_subdirectory(src)
 
@@ -68,19 +71,15 @@ install(DIRECTORY
 #   ament_lint_auto_find_test_dependencies()
 # endif()
 
-
-install(DIRECTORY launch config deps/nokov_sdk/include deps/nokov_sdk/lib/x64
- DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
-
 if (${ARCHITECTURE} MATCHES "arm") 
   install(DIRECTORY launch config deps/nokov_sdk/include deps/nokov_sdk/lib/armhf
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+    DESTINATION share/${PROJECT_NAME})
 elseif (${ARCHITECTURE} MATCHES "aarch")
   install(DIRECTORY launch config deps/nokov_sdk/include deps/nokov_sdk/lib/aarch64
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+    DESTINATION share/${PROJECT_NAME})
 else()
   install(DIRECTORY launch config deps/nokov_sdk/include deps/nokov_sdk/lib/x64
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+    DESTINATION share/${PROJECT_NAME})
 endif()
 
 ament_package()

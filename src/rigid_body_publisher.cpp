@@ -107,13 +107,6 @@ void RigidBodyPublisher::publish(rclcpp::Time const& time, RigidBody const& body
                    pose.pose.orientation.w);
 
 
-  if (config.publishOdom)
-  {
-    //odom.header.frame_id = config.parentFrameId;
-    odom.header.frame_id = std::to_string(body.iFrame);
-    odom.child_frame_id = config.childFrameId;
-    odomPublisher.publish(odom);
-  }
   // publish 2D pose
   if (config.publishPose2d)
   {
