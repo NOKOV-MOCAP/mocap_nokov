@@ -76,6 +76,7 @@ namespace mocap_nokov
       {
           RigidBody body;
           body.bodyId = pFrameOfData->RigidBodies[i].ID;
+          body.iFrame = pFrameOfData->iFrame;
           body.isTrackingValid = true;
           body.pose.position = {pFrameOfData->RigidBodies[i].x * 0.001f, 
                                 pFrameOfData->RigidBodies[i].y * 0.001f,
