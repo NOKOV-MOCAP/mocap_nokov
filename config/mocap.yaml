@@ -16,4 +16,4 @@ mocap_node:
                 child_frame_id: "Robot_2/base_link"
                 parent_frame_id: "world"
         nokov_config:
-                server_address: "192.168.242.1"
+                server_address: "10.1.1.198"
