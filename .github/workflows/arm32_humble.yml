@@ -1,0 +1,43 @@
+name: humble_arm32 build (EOL)
+
+on:
+  push:
+    branches: [ ros2 ]
+  pull_request:
+    branches: [ ros2 ]
+  workflow_dispatch: 
+
+jobs:
+  humble_arm32_build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: cancle preivious run
+        uses: styfle/cancel-workflow-action@0.10.0
+        with:
+          access_token: ${{ github.token }}
+      # 安装 QEMU 并启用多架构支持
+      - name: Install QEMU
+        run: |
+          sudo apt update
+          sudo apt install -y qemu qemu-user-static
+          sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      # 拉取 ARM 镜像
+      - name: Pull Docker image
+        run: sudo docker pull rclex/arm32v7_ros_docker:humble
+
+      # 在容器中运行后续步骤
+      - name: Run steps in Docker container
+        run: |
+          sudo docker run --rm -v $GITHUB_WORKSPACE:/workspace rclex/arm32v7_ros_docker:humble /bin/bash -c "
+            cd /workspace &&
+            source ~/ros2_ws/install/local_setup.bash &&
+            mkdir -p ros2_ws/src &&
+            cd ros2_ws/src &&
+            git clone -b ros2 https://github.com/NOKOV-MOCAP/mocap_nokov.git &&
+            cd .. &&
+            colcon build --packages-select mocap_nokov
+          "
+
+      # 检查容器状态
+      - name: Check container status
+        run: docker ps -a
